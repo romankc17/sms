@@ -14,3 +14,7 @@ class BatchView(APIView):
         serializer = BatchSerializer(batches, many=True, context={'request': request})
         
         return Response(serializer.data)
+
+    # Create a new batch
+    def post(self, request):
+        batches
