@@ -1,5 +1,7 @@
 from os import read
 from rest_framework import serializers
+from rest_framework.response import Response
+
 
 from .models import Class, Batch, Section
 
@@ -36,7 +38,17 @@ class ClassSerializer(serializers.ModelSerializer):
 
                 # check if the section name already exists in the same class
                 if Section.objects.filter(name=section_data.get('name'), class_name=instance).exists():
-                    raise serializers.ValidationError('Section already exists')
+                    # raise serializers.ValidationError('Section already exists')
+                    return Response(
+                        {
+                            "status":"eroor",
+                            "message":"Section already exists",
+                            "data":{
+                                "name": ["Section name already exists"]
+                            }
+                        },
+                        status=400
+                    )
 
                 Section.objects.create(class_name=instance, **section_data)
                 

@@ -6,6 +6,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
 
 from accounts.models import Account
+from .models.teachers import Teacher, Address
 
 
 class UserCreationForm(forms.ModelForm):
@@ -80,3 +81,5 @@ admin.site.register(Account, UserAdmin)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
 admin.site.unregister(Group)
+admin.site.register(Teacher)
+admin.site.register(Address)
