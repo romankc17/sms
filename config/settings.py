@@ -41,7 +41,6 @@ INSTALLED_APPS = [
 
     'accounts',
     'classes',
-    'staffs',
 
     'rest_framework',
     'corsheaders',
@@ -157,6 +156,9 @@ REST_FRAMEWORK = {
     ),  
     # Custom exception handling
     'EXCEPTION_HANDLER': 'config.utils.custom_exception_handler',
+
+    # Date format
+    'DATE_INPUT_FORMAT': '%Y-%m-%d',
 }
 
 

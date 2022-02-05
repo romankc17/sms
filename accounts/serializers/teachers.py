@@ -1,22 +1,12 @@
-from functools import partial
 from rest_framework import serializers
-from rest_framework.exceptions import ValidationError
-from rest_framework.response import Response
 
-from accounts.models.accounts import Account
-from accounts.models.teachers import Teacher, Address
+from ..models.teachers import Teacher
+from ..models.addresses import Address
 
 from ..serializers.accounts import AccountSerializer
+from ..serializers.addresses import AddressSerializer
 
-class AddressSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Address
-        fields = (
-            'village',
-            'ward_no',
-            'tole'
-        )
-
+# Serializer for Teacher model
 class TeacherSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     address = AddressSerializer(required=False)
@@ -43,7 +33,6 @@ class TeacherSerializer(serializers.ModelSerializer):
         )
 
     def create(self, validated_data):
-        print(validated_data)
         # creating a account
         account_data = validated_data.pop('account')
         account_data['is_staff'] = True
@@ -56,7 +45,7 @@ class TeacherSerializer(serializers.ModelSerializer):
         account = account_serializer.save()
 
         # Populating address data
-        # address_data = validated_data.pop('address')
+        address_data = validated_data.pop('address')
 
         # creating a teacher
         teacher = Teacher(**validated_data)
@@ -64,7 +53,7 @@ class TeacherSerializer(serializers.ModelSerializer):
         teacher.save()
 
         # creating address
-        # Address.objects.create(teacher=teacher, **address_data)
+        Address.objects.create(teacher=teacher, **address_data)
         return teacher
 
     def update(self, instance, validated_data):

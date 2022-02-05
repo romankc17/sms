@@ -11,7 +11,7 @@ class SectionSerializer(serializers.ModelSerializer):
         model = Section
         fields = ('id','name',)
 
-
+# Serilizer for Class model along with Section
 class ClassSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=False)
     sections = SectionSerializer(many=True)

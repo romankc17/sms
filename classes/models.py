@@ -13,7 +13,11 @@ class Batch(models.Model):
 
 class Class(models.Model):
     name = models.CharField(max_length=25,)
-    batch = models.ForeignKey(Batch, on_delete=models.CASCADE, related_name='classes')
+    batch = models.ForeignKey(
+        Batch, 
+        on_delete=models.CASCADE, 
+        related_name='classes'
+    )
 
     class Meta:
         verbose_name_plural = 'classes'

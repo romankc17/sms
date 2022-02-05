@@ -6,7 +6,9 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
 
 from accounts.models import Account
-from .models.teachers import Teacher, Address
+from .models.teachers import Teacher
+from .models.students import Student
+from .models.addresses import Address
 
 
 class UserCreationForm(forms.ModelForm):
@@ -83,3 +85,4 @@ admin.site.register(Account, UserAdmin)
 admin.site.unregister(Group)
 admin.site.register(Teacher)
 admin.site.register(Address)
+admin.site.register(Student)

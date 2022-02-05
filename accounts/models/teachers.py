@@ -1,10 +1,7 @@
 from django.db import models
 from PIL import Image
-# import settings
 from django.conf import settings
-# import slugify
 from django.template.defaultfilters import slugify
-from django.core.files.base import ContentFile
 
 from .accounts import Account
 
@@ -23,11 +20,13 @@ class Teacher(models.Model):
     name = models.CharField(max_length=100)
     phone = models.CharField(max_length=10)
     salary = models.IntegerField(blank=True, null=True)
-    # joining_date = models.DateField()
+    joining_date = models.DateField(auto_now_add=True, blank=True)
     role = models.CharField(max_length=100)
-    # department = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='staffs/images/', default=f'{settings.MEDIA_ROOT}/staffs/default/he-teacher.png', null=True, blank=True)
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True, blank=True)
+    image = models.ImageField(upload_to='staffs/images/', 
+                        default=f'{settings.MEDIA_ROOT}/staffs/default/he-teacher.png', 
+                        null=True, blank=True
+                    )
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     
     def __init__(self, *args, **kwargs):
         super(Teacher, self).__init__(*args, **kwargs)
@@ -37,6 +36,8 @@ class Teacher(models.Model):
 
     def save(self,*args, **kwargs,):
         super(Teacher, self).save(*args, **kwargs)
+
+        # compressing image to the size of 300 * 300
         image_path = self.image.path
         img = Image.open(image_path)
         if img.height > 300 or img.width > 300:
@@ -44,10 +45,5 @@ class Teacher(models.Model):
             img.thumbnail(output_size)
             img.save(image_path)
 
-class Address(models.Model):    
-    teacher = models.OneToOneField(Teacher, on_delete=models.CASCADE, related_name="address")
-    village = models.CharField(max_length=100)
-    ward_no = models.IntegerField()
-    tole = models.CharField(max_length=100)
 
 
