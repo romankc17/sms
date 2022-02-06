@@ -9,11 +9,11 @@ from ..serializers.students import StudentSerializer
 
 class StudentView(APIView):
     # list all the students and get a student by id
-    def get(self, request, id=None):
+    def get(self, request, student_id=None):
         # get a student if id is provided in url
-        if id:
+        if student_id:
             # check if the student with given id exists
-            student_qs = Student.objects.filter(id=id)
+            student_qs = Student.objects.filter(id=student_id)
             if student_qs.exists():
                 serializer = StudentSerializer(student_qs.first())
                 response = {
@@ -31,7 +31,7 @@ class StudentView(APIView):
 
         # get all the students if id not provided in url
         else:
-            students = Student.objects.all()
+            students = Student.get_latest_batch_students()
             serializer = StudentSerializer(students, many=True)
             response = {
                 'status': 'success',

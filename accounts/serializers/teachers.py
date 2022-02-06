@@ -26,7 +26,7 @@ class TeacherSerializer(serializers.ModelSerializer):
             'address',
             'phone',
             'salary',
-            # 'joining_date',
+            'joining_date',
             'role',
             'image',
             'gender'
@@ -40,6 +40,7 @@ class TeacherSerializer(serializers.ModelSerializer):
         account_data['is_superuser'] = False
         account_data['is_active'] = True
 
+        # Using AccountSerializer to create account
         account_serializer = AccountSerializer(data=account_data)
         account_serializer.is_valid(raise_exception=True)
         account = account_serializer.save()

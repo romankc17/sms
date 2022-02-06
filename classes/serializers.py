@@ -24,7 +24,7 @@ class ClassSerializer(serializers.ModelSerializer):
         sections_data = validated_data.pop('sections')
         class_ = Class.objects.create(**validated_data)
         for section_data in sections_data:
-            Section.objects.create(class_name=class_, **section_data)
+            Section.objects.create(class_=class_, **section_data)
         return class_
 
     def update(self, instance, validated_data):
@@ -37,7 +37,7 @@ class ClassSerializer(serializers.ModelSerializer):
             if not section_data.get('id'):
 
                 # check if the section name already exists in the same class
-                if Section.objects.filter(name=section_data.get('name'), class_name=instance).exists():
+                if Section.objects.filter(name=section_data.get('name'), class_=instance).exists():
                     # raise serializers.ValidationError('Section already exists')
                     return Response(
                         {

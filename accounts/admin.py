@@ -6,9 +6,6 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
 
 from accounts.models import Account
-from .models.teachers import Teacher
-from .models.students import Student
-from .models.addresses import Address
 
 
 class UserCreationForm(forms.ModelForm):
@@ -78,6 +75,11 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 
+
+from .models.teachers import Teacher
+from .models.students import Student, StudentBatchRollNumber
+from .models.addresses import Address
+
 # Now register the new UserAdmin...
 admin.site.register(Account, UserAdmin)
 # ... and, since we're not using Django's built-in permissions,
@@ -85,4 +87,4 @@ admin.site.register(Account, UserAdmin)
 admin.site.unregister(Group)
 admin.site.register(Teacher)
 admin.site.register(Address)
-admin.site.register(Student)
+admin.site.register([Student, StudentBatchRollNumber])

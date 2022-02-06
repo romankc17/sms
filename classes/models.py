@@ -7,9 +7,15 @@ class Batch(models.Model):
 
     class Meta:
         verbose_name_plural = 'batches'
+        ordering = ('year',)
 
     def __str__(self):
         return f'Batch-{self.year}'
+
+    # static method to return the latest batch
+    @staticmethod
+    def get_latest_batch():
+        return Batch.objects.all().order_by('-year')[0]
 
 class Class(models.Model):
     name = models.CharField(max_length=25,)
@@ -21,6 +27,7 @@ class Class(models.Model):
 
     class Meta:
         verbose_name_plural = 'classes'
+        ordering = ['batch', 'name']
 
     # Raise an error if the class name already exists
     def clean(self):
@@ -38,13 +45,15 @@ class Section(models.Model):
     name = models.CharField(max_length=25)
     class_name = models.ForeignKey(Class, on_delete=models.CASCADE, related_name='sections')
 
-    # Raise Validation error if section already exists
+    # Raise Validation error if section name already exists in the class
+    # only if new section is being created
+    # not while updating
     def clean(self):
-        if Section.objects.filter(name=self.name, class_name=self.class_name).exists():
+        if not self.pk and Section.objects.filter(name=self.name, class_name=self.class_name).exists():
             raise ValidationError('Section already exists')
 
     def save(self, *args, **kwargs):
-        # self.full_clean()
+        self.full_clean()
         return super().save(*args, **kwargs)
 
     def __str__(self):

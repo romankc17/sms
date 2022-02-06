@@ -1,3 +1,4 @@
+from this import d
 from django.db import models
 
 from .teachers import Teacher
@@ -13,3 +14,6 @@ class Address(models.Model):
     student = models.OneToOneField(Student, on_delete=models.CASCADE, 
                     related_name="address", blank=True, null=True
                 )
+
+    def __str__(self):
+        return f"{self.village}-{self.ward_no}, {self.tole}"
