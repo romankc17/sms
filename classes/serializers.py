@@ -24,7 +24,7 @@ class ClassSerializer(serializers.ModelSerializer):
         sections_data = validated_data.pop('sections')
         class_ = Class.objects.create(**validated_data)
         for section_data in sections_data:
-            Section.objects.create(class_=class_, **section_data)
+            Section.objects.create(class_name=class_, **section_data)
         return class_
 
     def update(self, instance, validated_data):
@@ -37,7 +37,7 @@ class ClassSerializer(serializers.ModelSerializer):
             if not section_data.get('id'):
 
                 # check if the section name already exists in the same class
-                if Section.objects.filter(name=section_data.get('name'), class_=instance).exists():
+                if Section.objects.filter(name=section_data.get('name'), class_name=instance).exists():
                     # raise serializers.ValidationError('Section already exists')
                     return Response(
                         {
@@ -66,23 +66,6 @@ class BatchSerializer(serializers.ModelSerializer):
         model = Batch
         fields = ('year','classes')
     
-    # Checking if the class names and their sections are unique or not
-    def validate_classes(self, value):
-
-        # generating the list of the class namaes from the request
-        class_names = [class_name['name'] for class_name in value]
-
-        # checking if the class names are unique
-        if len(set(class_names)) != len(class_names):
-            raise serializers.ValidationError('Class names must be unique')
-        
-        # checking if the sections are unique
-        for class_name in class_names:
-            section_names = [section_name['name'] for section_name in value[class_names.index(class_name)]['sections']]
-            if len(set(section_names)) != len(section_names):
-                raise serializers.ValidationError('Section names must be unique')
-
-        return value
 
     # Creating batch, classes and sections with nested serializers
     def create(self, validated_data):
@@ -110,12 +93,6 @@ class BatchSerializer(serializers.ModelSerializer):
 
             # create new class if class id is not provided or class does not exist
             if class_id is None or not class_qs.exists():
-
-                # Check if the class name already exists in the batch
-                class_name = class_data.get('name')
-                class_qs = Class.objects.filter(name=class_name, batch=instance)
-                if class_qs.exists():
-                    raise serializers.ValidationError('Class already exists')
 
                 # Create new class object with batch
                 class_serializer = ClassSerializer(data=class_data)

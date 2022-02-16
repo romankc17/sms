@@ -168,11 +168,12 @@ class StudentSerializer(serializers.ModelSerializer):
                 setattr(address_instance, attr, value)
             address_instance.save()
         
-
         # updating student
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         instance.save()
+
+        return instance
 
 
         
