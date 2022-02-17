@@ -10,9 +10,16 @@ urlpatterns = [
     path('batches/', BatchView.as_view(), name='batches'),
     path('batches/batch/<int:batch_year>/', BatchView.as_view(), name='batch'),
 
-    # deleting a class
-    path('batches/batch/<int:batch_year>/class/<str:class_name>/', ClassView.as_view(), name='class'),
+    # class
+    path('batch/<int:batch_year>/class/<str:class_name>/', ClassView.as_view(), name='class'),
 
-    # deleting a section
-    path('batches/batch/<int:batch_year>/class/<str:class_name>/section/<str:section_name>/', SectionView.as_view(), name='section'),
+    # section
+    path('batch/<int:batch_year>/class/<str:class_name>/section/<str:section_name>/', 
+            SectionView.as_view(), 
+            name='section'
+        ),
+    path('batch/<int:batch_year>/class/<str:class_name>/sections/',
+            SectionView.as_view(), 
+            name='section_list'
+        )
 ]

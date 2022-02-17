@@ -178,3 +178,43 @@ class SectionView(APIView):
             "messages": "Section deleted successfully"
         }
         return Response(response, status=status.HTTP_200_OK)
+
+    # list the sections of the class in the batch
+    def get(self, request, batch_year=None, class_name=None):
+        if batch_year is not None and class_name is not None:
+            batch_qs = Batch.objects.filter(year=batch_year)
+            if not batch_qs.exists():
+                response = {
+                    "status": "error",
+                    "data": {},
+                    "messages": "Batch not found"
+                }
+                return Response(response, status=status.HTTP_404_NOT_FOUND)
+
+            class_qs = Class.objects.filter(batch=batch_qs[0], name=class_name)
+            if not class_qs.exists():
+                response = {
+                    "status": "error",
+                    "data": {},
+                    "messages": "Class not found"
+                }
+                return Response(response, status=status.HTTP_404_NOT_FOUND)
+
+            section_qs = Section.objects.filter(class_name=class_qs[0])
+
+
+            section_serializer = SectionSerializer(section_qs, many=True, context={'request': request})
+            response = {
+                "status": "success",
+                "data": section_serializer.data,
+                "messages": "Section retrieved successfully"
+            }
+            return Response(response, status=status.HTTP_200_OK)
+
+        else:
+            response = {
+                "status": "error",
+                "data": {},
+                "messages": "Mehtod not allowed"
+            }
+            return Response(response, status=status.HTTP_405_METHOD_NOT_ALLOWED)

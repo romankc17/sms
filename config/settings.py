@@ -180,13 +180,15 @@ SIMPLE_JWT = {
     'TOKEN_TYPE_CLAIM': 'token_type',
 }
 
-# 
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:3000",
-    "http://read.only.com",
-    "http://change.allowed.com",
-]
+# allow access for all domains
+CORS_ORIGIN_ALLOW_ALL = True
 
-CSRF_TRUSTED_ORIGINS = [
- "https://change.allowed.com",
-]
+# CORS_ORIGIN_WHITELIST = [
+#     "http://localhost:3000",
+#     "http://read.only.com",
+#     "http://change.allowed.com",
+# ]
+
+# CSRF_TRUSTED_ORIGINS = [
+#  "https://change.allowed.com",
+# ]

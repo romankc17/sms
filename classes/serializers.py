@@ -60,11 +60,14 @@ class ClassSerializer(serializers.ModelSerializer):
         return instance
 
 class BatchSerializer(serializers.ModelSerializer):
-    classes = ClassSerializer(many=True)
+    classes = ClassSerializer(many=True, write_only=True)
 
     class Meta:
         model = Batch
-        fields = ('year','classes')
+        fields = (
+            'year',
+            'classes'
+        )
     
 
     # Creating batch, classes and sections with nested serializers
