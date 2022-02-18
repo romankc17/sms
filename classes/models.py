@@ -27,7 +27,7 @@ class Class(models.Model):
 
     class Meta:
         verbose_name_plural = 'classes'
-        ordering = ['batch', 'name']
+        ordering = ['batch', 'id']
 
     # Raise an error if the class name already exists
     def clean(self):

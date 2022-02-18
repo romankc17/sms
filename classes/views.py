@@ -150,7 +150,7 @@ class ClassView(APIView):
             }
             return Response(response, status=status.HTTP_404_NOT_FOUND)
 
-        class_qs.delete()
+        class_qs[0].delete()
         response = {
             "status": "success",
             "data": {},
