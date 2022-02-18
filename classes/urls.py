@@ -12,6 +12,7 @@ urlpatterns = [
 
     # class
     path('batch/<int:batch_year>/class/<str:class_name>/', ClassView.as_view(), name='class'),
+    path('batch/<int:batch_year>/classes/', ClassView.as_view(), name='class_list'),
 
     # section
     path('batch/<int:batch_year>/class/<str:class_name>/section/<str:section_name>/', 
