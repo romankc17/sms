@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     'accounts',
     'classes',
+    'exams',
 
     'rest_framework',
     'corsheaders',

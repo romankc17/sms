@@ -1,9 +1,6 @@
 from rest_framework import serializers
 
 from ..models.students import Student, StudentBatchRollNumber
-from ..models.addresses import Address
-
-from .addresses import AddressSerializer
 
 from classes.models import Batch, Class, Section
 
@@ -39,9 +36,15 @@ class StudentSerializer(serializers.ModelSerializer):
     section_name = serializers.CharField(write_only=True)
     roll_no = serializers.IntegerField(write_only=True)
     
-    address = AddressSerializer()
+    # address = AddressSerializer(many=False)
     # for read only of the roll number and the respective batches
     student_batch_roll_numbers = StudentBatchRollNumberSerializer(read_only=True, many=True)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Add address field to the fields
+        # self.fields['address'] = AddressSerializer(many=False)
+        print(kwargs)
 
     class Meta:
         model = Student
@@ -49,7 +52,9 @@ class StudentSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'student_batch_roll_numbers',
-            'address',
+            'village',
+            'ward_no',
+            'tole',
             'dob',
             'parent_name',
             'parent_contact',
@@ -60,6 +65,7 @@ class StudentSerializer(serializers.ModelSerializer):
             'section_name',            
             'roll_no',         
         )
+        depth = 3
 
     # Check if the batch with the given batch year exists
     def validate_batch_year(self, value):
@@ -118,8 +124,6 @@ class StudentSerializer(serializers.ModelSerializer):
 
     # customizing create to create student with address
     def create(self, validated_data):
-        # Populating address data
-        address_data = validated_data.pop('address')
         # Populating roll number
         roll_no = validated_data.pop('roll_no')
         # Populating batch year, class and section 
@@ -130,9 +134,6 @@ class StudentSerializer(serializers.ModelSerializer):
         # creating a student
         student = Student(**validated_data)
         student.save()
-
-        # creating address
-        Address.objects.create(student=student, **address_data)
 
         # add student to section
         section = Section.objects.get(
@@ -156,24 +157,12 @@ class StudentSerializer(serializers.ModelSerializer):
         return student
 
     # customizing update to update student with address
-    def update(self, instance, validated_data):
-        # Check if the address is in update data
-        address_data = validated_data.get('address')
-
-        # Update address if in update data
-        if address_data:
-            address_data = validated_data.pop('address')
-            address_instance = instance.address
-            for attr, value in address_data.items():
-                setattr(address_instance, attr, value)
-            address_instance.save()
-        
+    def update(self, instance, validated_data):        
         # updating student
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         instance.save()
 
         return instance
-
 
         

@@ -29,6 +29,9 @@ class Student(models.Model):
             null=True, blank=True
         )
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    village = models.CharField(max_length=100)
+    ward_no = models.IntegerField()
+    tole = models.CharField(max_length=100)
     
     # Many to many relationships with Section model from classes app
     sections = models.ManyToManyField(Section)

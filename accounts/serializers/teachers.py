@@ -1,15 +1,12 @@
 from rest_framework import serializers
 
 from ..models.teachers import Teacher
-from ..models.addresses import Address
 
 from ..serializers.accounts import AccountSerializer
-from ..serializers.addresses import AddressSerializer
 
 # Serializer for Teacher model
 class TeacherSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    address = AddressSerializer(required=False)
     salary = serializers.IntegerField(required=False)
     username = serializers.CharField(source='account.username')
     email = serializers.CharField(source='account.email')
@@ -23,7 +20,9 @@ class TeacherSerializer(serializers.ModelSerializer):
             'email',
             'password',
             'name',
-            'address',
+            'village',
+            'ward_no',
+            'tole',
             'phone',
             'salary',
             'joining_date',
@@ -45,30 +44,15 @@ class TeacherSerializer(serializers.ModelSerializer):
         account_serializer.is_valid(raise_exception=True)
         account = account_serializer.save()
 
-        # Populating address data
-        address_data = validated_data.pop('address')
-
         # creating a teacher
         teacher = Teacher(**validated_data)
         teacher.account = account
         teacher.save()
-
-        # creating address
-        Address.objects.create(teacher=teacher, **address_data)
+        
         return teacher
 
     def update(self, instance, validated_data):
-        # Check if the address is in update data
-        address_data = validated_data.get('address')
-
-        # Update address if in update data
-        if address_data:
-            address_data = validated_data.pop('address')
-            address_instance = instance.address
-            for attr, value in address_data.items():
-                setattr(address_instance, attr, value)
-            address_instance.save()
-        
+        # updating account        
         # Check if the account is in update data
         account_data = validated_data.get('account')
         # Update account if in update data

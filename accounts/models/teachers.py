@@ -15,7 +15,6 @@ def image_path(instance, filename):
     return "/".join(['teachers',slugify(instance.name), filename])
 
 
-
 class Teacher(models.Model):
     account = models.OneToOneField(Account, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=100)
@@ -28,6 +27,9 @@ class Teacher(models.Model):
                         null=True, blank=True
                     )
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    village = models.CharField(max_length=100)
+    ward_no = models.IntegerField()
+    tole = models.CharField(max_length=100)
     
     def __init__(self, *args, **kwargs):
         super(Teacher, self).__init__(*args, **kwargs)
