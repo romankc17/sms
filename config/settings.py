@@ -169,7 +169,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),  
     # Custom exception handling
-    'EXCEPTION_HANDLER': 'config.utils.custom_exception_handler',
+    # 'EXCEPTION_HANDLER': 'config.utils.custom_exception_handler',
 
     # Date format
     'DATE_INPUT_FORMAT': '%Y-%m-%d',

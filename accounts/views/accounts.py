@@ -35,9 +35,15 @@ class RegisterView(APIView):
         }
         
         serializer = AccountSerializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        
+        if not serializer.is_valid():
+            response = {
+                'status': 'error',
+                'data': serializer.errors,
+                'message': 'User could not be created'
+            }
+            return Response(response, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer.save()        
         return Response(serializer.data, status=201)
         
     

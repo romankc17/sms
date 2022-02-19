@@ -17,7 +17,7 @@ class BatchView(APIView):
             response = {
                 "status": "success",
                 "data": batches_serializer.data,
-                "messages": "Batches retrieved successfully"          
+                "message": "Batches retrieved successfully"          
             }
 
             return Response(response, status=status.HTTP_200_OK)
@@ -28,7 +28,7 @@ class BatchView(APIView):
                 response = {
                     "status": "error",
                     "data": {},
-                    "messages": "Batch not found"
+                    "message": "Batch not found"
                 }
                 return Response(response, status=status.HTTP_404_NOT_FOUND)
 
@@ -36,7 +36,7 @@ class BatchView(APIView):
             response = {
                 "status": "success",
                 "data": batch_serializer.data,
-                "messages": "Batch retrieved successfully"
+                "message": "Batch retrieved successfully"
             }
             return Response(response, status=status.HTTP_200_OK)
 
@@ -51,14 +51,14 @@ class BatchView(APIView):
                 response = {
                     "status": "success",
                     "data": serializer.data,
-                    "messages": "Batch created successfully"
+                    "message": "Batch created successfully"
                 }
                 return Response(response, status=status.HTTP_201_CREATED)
 
             response = {
                 "status": "error",
                 "data": serializer.errors,
-                "messages": "Batch creation failed"
+                "message": "Batch creation failed"
             }
             return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
@@ -66,7 +66,7 @@ class BatchView(APIView):
             response = {
                 "status": "error",
                 "data": {},
-                "messages": "Mehtod not allowed"
+                "message": "Mehtod not allowed"
             }
             return Response(response, status=status.HTTP_405_METHOD_NOT_ALLOWED)
     
@@ -78,7 +78,7 @@ class BatchView(APIView):
                 response = {
                     "status": "error",
                     "data": {},
-                    "messages": "Batch not found"
+                    "message": "Batch not found"
                 }
                 return Response(response, status=status.HTTP_404_NOT_FOUND)
 
@@ -89,14 +89,14 @@ class BatchView(APIView):
                 response = {
                     "status": "success",
                     "data": serializer.data,
-                    "messages": "Batch updated successfully"
+                    "message": "Batch updated successfully"
                 }
                 return Response(response, status=status.HTTP_200_OK)
 
             response = {
                 "status": "error",
                 "data": serializer.errors,
-                "messages": "Batch update failed"
+                "message": "Batch update failed"
             }
             return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
@@ -104,7 +104,7 @@ class BatchView(APIView):
             response = {
                 "status": "error",
                 "data": {},
-                "messages": "Mehtod not allowed"
+                "message": "Mehtod not allowed"
             }
             return Response(response, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
@@ -116,7 +116,7 @@ class BatchView(APIView):
                 response = {
                     "status": "error",
                     "data": {},
-                    "messages": "Batch not found"
+                    "message": "Batch not found"
                 }
                 return Response(response, status=status.HTTP_404_NOT_FOUND)
 
@@ -124,7 +124,7 @@ class BatchView(APIView):
             response = {
                 "status": "success",
                 "data": {},
-                "messages": "Batch deleted successfully"
+                "message": "Batch deleted successfully"
             }
             return Response(response, status=status.HTTP_200_OK)
 
@@ -132,7 +132,7 @@ class BatchView(APIView):
             response = {
                 "status": "error",
                 "data": {},
-                "messages": "Mehtod not allowed"
+                "message": "Mehtod not allowed"
             }
             return Response(response, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
@@ -146,7 +146,7 @@ class ClassView(APIView):
             response = {
                 "status": "error",
                 "data": {},
-                "messages": "Class not found"
+                "message": "Class not found"
             }
             return Response(response, status=status.HTTP_404_NOT_FOUND)
 
@@ -154,7 +154,7 @@ class ClassView(APIView):
         response = {
             "status": "success",
             "data": {},
-            "messages": "Class deleted successfully"
+            "message": "Class deleted successfully"
         }
         return Response(response, status=status.HTTP_200_OK)
 
@@ -166,7 +166,7 @@ class ClassView(APIView):
                 response = {
                     "status": "error",
                     "data": {},
-                    "messages": "Class not found"
+                    "message": "Class not found"
                 }
                 return Response(response, status=status.HTTP_404_NOT_FOUND)
 
@@ -175,7 +175,7 @@ class ClassView(APIView):
             response = {
                 "status": "success",
                 "data": classes_serializer.data,
-                "messages": "Classes retrieved successfully"
+                "message": "Classes retrieved successfully"
             }
             return Response(response, status=status.HTTP_200_OK)
 
@@ -183,7 +183,7 @@ class ClassView(APIView):
             response = {
                 "status": "error",
                 "data": {},
-                "messages": "Mehtod not allowed"
+                "message": "Mehtod not allowed"
             }
             return Response(response, status=status.HTTP_405_METHOD_NOT_ALLOWED)
         
@@ -196,7 +196,7 @@ class SectionView(APIView):
             response = {
                 "status": "error",
                 "data": {},
-                "messages": "Section not found"
+                "message": "Section not found"
             }
             return Response(response, status=status.HTTP_404_NOT_FOUND)
 
@@ -204,7 +204,7 @@ class SectionView(APIView):
         response = {
             "status": "success",
             "data": {},
-            "messages": "Section deleted successfully"
+            "message": "Section deleted successfully"
         }
         return Response(response, status=status.HTTP_200_OK)
 
@@ -216,7 +216,7 @@ class SectionView(APIView):
                 response = {
                     "status": "error",
                     "data": {},
-                    "messages": "Batch not found"
+                    "message": "Batch not found"
                 }
                 return Response(response, status=status.HTTP_404_NOT_FOUND)
 
@@ -225,7 +225,7 @@ class SectionView(APIView):
                 response = {
                     "status": "error",
                     "data": {},
-                    "messages": "Class not found"
+                    "message": "Class not found"
                 }
                 return Response(response, status=status.HTTP_404_NOT_FOUND)
 
@@ -236,7 +236,7 @@ class SectionView(APIView):
             response = {
                 "status": "success",
                 "data": section_serializer.data,
-                "messages": "Section retrieved successfully"
+                "message": "Section retrieved successfully"
             }
             return Response(response, status=status.HTTP_200_OK)
 
@@ -244,6 +244,6 @@ class SectionView(APIView):
             response = {
                 "status": "error",
                 "data": {},
-                "messages": "Mehtod not allowed"
+                "message": "Method not allowed"
             }
             return Response(response, status=status.HTTP_405_METHOD_NOT_ALLOWED)

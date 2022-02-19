@@ -4,9 +4,7 @@ from django.db.models import Q
 
 class AuthBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
-        print('here')
         UserModel = get_user_model()
-        print(username)
         try:
             user = UserModel.objects.get(Q(username=username) | Q(email=username) )
             
