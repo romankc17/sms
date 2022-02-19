@@ -93,3 +93,31 @@ class TeacherView(APIView):
             'message': 'Teacher could not be updated'
         }
         return Response(response, status=status.HTTP_400_BAD_REQUEST)
+
+    # delete a teacher and also delete the account associated with it
+    def delete(self, request, teacher_id=None):
+        # check if id is provided
+        if teacher_id is None:
+            response = {
+                'status': 'error',
+                'message': 'Teacher id is required'
+            }
+            return Response(response, status=status.HTTP_400_BAD_REQUEST)
+        
+        # check if teacher exists
+        teacher_qs = Teacher.objects.filter(id=teacher_id)
+        if not teacher_qs.exists():
+            response = {
+                'status': 'error',
+                'message': 'Teacher does not exist'
+            }
+            return Response(response, status=status.HTTP_404_NOT_FOUND)
+        
+        teacher = teacher_qs.first()
+        teacher.delete()
+        teacher.account.delete()
+        response = {
+            'status': 'success',
+            'message': 'Teacher deleted successfully'
+        }
+        return Response(response, status=status.HTTP_200_OK)

@@ -77,7 +77,7 @@ class UserAdmin(BaseUserAdmin):
 
 
 from .models.teachers import Teacher
-from .models.students import Student, StudentBatchRollNumber
+from .models.students import Student
 
 # Now register the new UserAdmin...
 admin.site.register(Account, UserAdmin)
@@ -85,4 +85,4 @@ admin.site.register(Account, UserAdmin)
 # unregister the Group model from admin.
 admin.site.unregister(Group)
 admin.site.register(Teacher)
-admin.site.register([Student, StudentBatchRollNumber])
+admin.site.register([Student])

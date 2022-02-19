@@ -7,66 +7,21 @@ from ..serializers.accounts import AccountSerializer
 # Serializer for Teacher model
 class TeacherSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
-    salary = serializers.IntegerField(required=False)
-    username = serializers.CharField(source='account.username')
-    email = serializers.CharField(source='account.email')
-    password = serializers.CharField(write_only=True, source='account.password')
+    image = serializers.ImageField(required=False,max_length=None,allow_empty_file=True,use_url=True)
 
     class Meta:
         model = Teacher
         fields = (
             'id',
-            'username',
             'email',
-            'password',
             'name',
             'village',
             'ward_no',
             'tole',
             'phone',
-            'salary',
             'joining_date',
             'role',
             'image',
             'gender'
         )
 
-    def create(self, validated_data):
-        # creating a account
-        account_data = validated_data.pop('account')
-        account_data['is_staff'] = True
-        account_data['is_admin'] = False
-        account_data['is_superuser'] = False
-        account_data['is_active'] = True
-
-        # Using AccountSerializer to create account
-        account_serializer = AccountSerializer(data=account_data)
-        account_serializer.is_valid(raise_exception=True)
-        account = account_serializer.save()
-
-        # creating a teacher
-        teacher = Teacher(**validated_data)
-        teacher.account = account
-        teacher.save()
-        
-        return teacher
-
-    def update(self, instance, validated_data):
-        # updating account        
-        # Check if the account is in update data
-        account_data = validated_data.get('account')
-        # Update account if in update data
-        if account_data:
-            account_data = validated_data.pop('account')
-            account_instance = instance.account
-            
-            account_serializer = AccountSerializer(account_instance, data=account_data, partial=True)
-            
-            account_serializer.is_valid(raise_exception=True)
-            account_serializer.save()
-
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
-        instance.save()
-
-        return instance
